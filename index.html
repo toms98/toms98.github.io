@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <header><h3 style="color: #ff8000; font-size: 150%;"><u>Matrix Pattern Generator</u></h3></header>
+        <title>Matrix Pattern Generator</title>
+        <style>
+            html, body {
+                font-family: 'Arial', sans-serif;
+            }
+            td {
+                padding: 15.5px;
+            }
+            td:hover {
+                cursor: pointer;
+                background: rgba(0,0,0,0.5);
+            }
+            td {
+                border: 1px solid rgba(0,0,0,1);
+            }
+            .selected {
+                background: #ff8000;
+            }
+            .selected:hover {
+                background: #ff8000;
+            }
+            #wrapper {
+                display: flex;
+                justify-content: left;
+            }
+            #wrapper div {
+                margin: 10px;
+            }
+            .footer {
+                position: fixed;
+                left: 0;
+                bottom: 0;
+                height: 20px;
+                width: 100%;
+                background-color: red;
+                color: white;
+                text-align: center;
+            }
+        </style>
+    </head>
+    <body bgcolor="#4d4945">
+        <div id="wrapper">
+            <div>
+                <table id="content">
+                    <!-- Hier wird der Inhalt durch das JavaScript generiert -->
+                </table>
+                <br />
+                <button id="auswerten">Auswerten</button>
+                <button onclick="location.reload()">Neu Laden</button>
+            </div>
+            <div>
+                <header style="color: #8f8f8f">
+                    <h3 style="font-size: 90%; line-height: 140%"><u>Anleitung</u></h3>
+                    1. Eingabe des gewünschten Musters in der nebenstehenden Matrix
+                    <br />
+                    2. "Auswerten" drücken zum Anzeigen der HEX Werte für jede einzelne Zeile
+                    <br />
+                    3. Zum Resetten der Matrix "Neu Laden" anklicken
+                </header>
+                <header>
+                    <h3 style="color: #ffffff; font-size: 90%;"><u>Auswertung:</u></h3>
+                </header>
+                <div id="output" style="color: #ffffff">
+                    <!-- Hier wird die Ausgabe durch JavaScript generiert -->
+                </div>         
+            </div>
+        </div>
+         <div>
+            <div class="footer">
+                <font size="2">Dies ist der Footer</font>
+            </div>
+        </div>
+    </body>
+   
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script>
+        var x = 15;
+        var y = 23;
+           
+        $(document).ready(function() {
+            tabelleGenerieren();
+           
+            /**
+             *  Click Listener für alle <td> elemente in der Tabelle
+             */
+            $("#content").on("click", "td", function() {
+                $(this).toggleClass("selected");
+            });
+           
+            $("#auswerten").on("click", function() {
+                $("#content").children("tr").each(function() {
+                    var line = "";
+                    $(this).children().each(function() {
+                        line+=$(this).hasClass("selected") ? "1" : "0";
+                    });
+                    // String mit 0 und 1 erst als binäre Zahl und dann zu Hex-Zahl
+                    line = parseInt(line, 2).toString(16);                
+                    $('#output').append(line+"<br />");
+                })
+            });
+        });
+ 
+        function tabelleGenerieren() {
+            $('#content').html("");                
+            /**
+             *  Erzeugen der Tabellen-Inhalte
+             */        
+            for(var cx = 0; cx < x; cx++) {
+                var line = '<tr id="tr'+cx+'">';
+                for(var cy = 0; cy < y; cy++) {
+                    line+='<td></td>';
+                }
+                line+='</tr>';
+                $('#content').append(line);
+            }
+        }      
+ 
+    </script>
+   
+</html>
