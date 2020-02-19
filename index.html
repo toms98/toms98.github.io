@@ -1,14 +1,14 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <header><h3 style="color: #ff8000; font-size: 150%;"><u>Matrix Pattern Generator</u></h3></header>
+    	<link rel="shortcut icon" href="/favicon.ico" />
         <title>Matrix Pattern Generator</title>
         <style>
             html, body {
                 font-family: 'Arial', sans-serif;
             }
             td {
-                padding: 15.5px;
+                padding: 1.0vw;
             }
             td:hover {
                 cursor: pointer;
@@ -36,71 +36,82 @@
                 bottom: 0;
                 width: 100%;
                 background-color: #8f8f8f;
-		color: white;
+        		color: white;
             }
-	    .boxer1 {
-		float: left;
-		padding: 1.5px;
-		font-size: 12px;
-	    }
-	    .boxer2 {
-	    	float: right;
-		padding: 1.5px;
-	    	font-size: 12px;
-	    }
+        	.boxer1 {
+        		float: left;
+        		padding: 1.5px;
+        		font-size: 12px;
+        	}
+        	.boxer2 {
+           		float: right;
+        		padding: 1.5px;
+            	font-size: 12px;
+        	}
+        	.button_css {
+        		background-color: #8f8f8f;
+        		color: #ff8000;
+        		width: 100px;
+        		height: 20px;
+        		border: white;
+        		border-radius: 8px;
+        		text-shadow: 0 0 5px white;
+        		font-weight: bold;
+       	 	}
         </style>
     </head>
     <body bgcolor="#4d4945">
-        <div id="wrapper">
-            <div>
-                <table id="content">
-                    <!-- Hier wird der Inhalt durch das JavaScript generiert -->
-                </table>
-                <br />
-                <button id="auswerten">Auswerten</button>
-                <button onclick="location.reload()">Neu Laden</button>
-            </div>
-            <div>
-                <header style="color: #8f8f8f">
-                    <h3 style="font-size: 90%; line-height: 140%"><u>Anleitung</u></h3>
-                    1. Eingabe des gewünschten Musters in der nebenstehenden Matrix
-                    <br />
-                    2. "Auswerten" drücken zum Anzeigen der HEX Werte für jede einzelne Zeile
-                    <br />
-                    3. Zum Resetten der Matrix "Neu Laden" anklicken
-                </header>
-                <header>
-                    <h3 style="color: #ffffff; font-size: 90%;"><u>Auswertung:</u></h3>
-                </header>
-                <div id="output" style="color: #ffffff">
-                    <!-- Hier wird die Ausgabe durch JavaScript generiert -->
-                </div>         
-            </div>
+    	<header>
+        	<h3 style="color: #ff8000; font-size: 150%;"><u>Matrix Pattern Generator</u></h3>
+        </header>
+	    <div id="wrapper">
+	    	<div>
+	    		<table id="content">
+	            	<!-- Hier wird der Inhalt durch das JavaScript generiert -->
+	            </table>
+	            <br />
+	            <input type="button" class="button_css" id="auswerten" value="Auswerten"></input>
+	            <input type="button" class="button_css" onclick="location.reload()" value="Neu Laden"></input>
+               <!-- <button onclick="location.reload()">Neu Laden</button> -->
+        	</div>
+        	<div>
+            	<header style="color: #8f8f8f">
+                	<h3 style="font-size: 90%; line-height: 140%"><u>Anleitung</u></h3>
+                	1. Eingabe des gewünschten Musters in der nebenstehenden Matrix
+                	<br />
+                	2. "Auswerten" drücken zum Anzeigen der HEX Werte für jede einzelne Zeile
+                	<br />
+                	3. Zum Resetten der Matrix "Neu Laden" anklicken
+            	</header>
+            	<header>
+                	<h3 style="color: #ffffff; font-size: 90%;"><u>Auswertung:</u></h3>
+            	</header>
+            	<div id="output" style="color: #ffffff">
+                	<!-- Hier wird die Ausgabe durch JavaScript generiert -->
+            	</div> 
+        	</div>       
         </div>
-         <div>
+        <div>
             <div class="footer">
                 <div class="boxer1">Matrix Pattern Generator - ein Oberstufenprojekt von Tom Schröter und Oliver Reichardt</div>
-		<div class="boxer2">&copy; 2020 by Tom Schröter</div>
+        		<div class="boxer2">&copy; 2020 by Tom Schröter</div>
             </div>
-        </div>
+    	</div>
     </body>
-   
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script>
         var x = 15;
         var y = 23;
-           
         $(document).ready(function() {
-            tabelleGenerieren();
-           
+            tabelleGenerieren();        
             /**
              *  Click Listener für alle <td> elemente in der Tabelle
              */
             $("#content").on("click", "td", function() {
                 $(this).toggleClass("selected");
             });
-           
             $("#auswerten").on("click", function() {
+                $('#output').html("");
                 $("#content").children("tr").each(function() {
                     var line = "";
                     $(this).children().each(function() {
@@ -112,7 +123,6 @@
                 })
             });
         });
- 
         function tabelleGenerieren() {
             $('#content').html("");                
             /**
@@ -126,8 +136,6 @@
                 line+='</tr>';
                 $('#content').append(line);
             }
-        }      
- 
+        }       
     </script>
-   
 </html>
