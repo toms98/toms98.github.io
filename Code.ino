@@ -1,4 +1,4 @@
-//UNO - Receiver - COM20
+//Arduino UNO - Receiver - COM20
 //Portbelegung:
 //D2 - DataIn 433Mhz
 //D6 - LED grün
@@ -26,27 +26,26 @@ long holder = B1000000;
 long mask = B11111111;
 long row1  = 32768; //B1000000000000000;
 long row2  = 16384; //B0100000000000000;
-long row3  = 8192; //B0010000000000000;
-long row4  = 4096; //B0001000000000000;
-long row5  = 2048; //B0000100000000000;
-long row6  = 1024; //B0000010000000000;
-long row7  = 512; //B0000001000000000;
-long row8  = 256; //B0000000100000000;
-long row9  = 128; //B0000000010000000;
-long row10 = 64; //B0000000001000000;
-long row11 = 32; //B0000000000100000;
-long row12 = 16; //B0000000000010000;
-long row13 = 8; //B0000000000001000;
-long row14 = 4; //B0000000000000100;
-long row15 = 2; //B0000000000000010;
+long row3  = 8192;  //B0010000000000000;
+long row4  = 4096;  //B0001000000000000;
+long row5  = 2048;  //B0000100000000000;
+long row6  = 1024;  //B0000010000000000;
+long row7  = 512;   //B0000001000000000;
+long row8  = 256;   //B0000000100000000;
+long row9  = 128;   //B0000000010000000;
+long row10 = 64;    //B0000000001000000;
+long row11 = 32;    //B0000000000100000;
+long row12 = 16;    //B0000000000010000;
+long row13 = 8;     //B0000000000001000;
+long row14 = 4;     //B0000000000000100;
+long row15 = 2;     //B0000000000000010;
 
-int dataPin2 = 8; //DS
-int latchPin2 = 9; //ST
-int clockPin2 = 10; //SH
-//muss noch neu gesteckt und definiert werden
-int dataPin3 = 11;
-int latchPin3 = 12;
-int clockPin3 = 13;
+int dataPin2 = 8;   //DS - Pin 14
+int latchPin2 = 9;  //ST - Pin 13
+int clockPin2 = 10; //SH - Pin 12
+int dataPin3 = 11;  //DS - Pin 14
+int latchPin3 = 12; //ST - Pin 13
+int clockPin3 = 13; //SH - Pin 12
 
 /* ----------------------------------------------*/
 /* ------------- d = digit, r = row -------------*/
@@ -90,7 +89,8 @@ int endArray [33] = {    1,  3,  5,  7,  9, 11, 13, 15,
   100001, 100011, 100101, 100111, 101001, 101011, 101101, 101111,
   110001, 110011, 110101, 110111, 111001, 111011, 111101, 111111
 */
-//endArray überall mit 1 am Ende - bei shiftOut mit LSB wird die Zahl so nicht gekürzt
+//endArray überall mit 1 am Ende - bei shiftOut mit LSB
+//wird die Zahl so nicht gekürzt
 
 void setup() {
   Serial.begin(9600);
@@ -1601,323 +1601,363 @@ void loop() {
     // Wenn keine neuen Daten empfangen werden
 
     //Zeile 1
-
-    //r1 einsetzen -> entspricht k
-    //as -> entspricht long mask
-    
     col1 = r1 >> 16;
     colH = r1 >> 8;
     col2 = colH & mask;
-    col3 = r1 & mask; 
-    
+    col3 = r1 & mask;
+
     rowA = row1 >> 16;
     rowB = row1 >> 8;
-    
+
     digitalWrite(latchPin2, LOW);
     shiftOut(dataPin2, clockPin2, LSBFIRST, rowA);
     shiftOut(dataPin2, clockPin2, LSBFIRST, rowB);
     digitalWrite(latchPin2, HIGH);
-    delay(10);
+    delay(1);
     digitalWrite(latchPin3, LOW);
     shiftOut(dataPin3, clockPin3, LSBFIRST, col1);
     shiftOut(dataPin3, clockPin3, LSBFIRST, col2);
     shiftOut(dataPin3, clockPin3, LSBFIRST, col3);
     digitalWrite(latchPin3, HIGH);
-    delay(10);
-    
+    delay(1);
+
+    Serial.print("Zeile 1:  ");
+    Serial.println(r1, BIN);
+
     //Zeile 2
-        
     col1 = r2 >> 16;
     colH = r2 >> 8;
     col2 = colH & mask;
-    col3 = r2 & mask; 
-    
+    col3 = r2 & mask;
+
     rowA = row2 >> 16;
     rowB = row2 >> 8;
-    
+
     digitalWrite(latchPin2, LOW);
     shiftOut(dataPin2, clockPin2, LSBFIRST, rowA);
     shiftOut(dataPin2, clockPin2, LSBFIRST, rowB);
     digitalWrite(latchPin2, HIGH);
-    delay(10);
+    delay(1);
     digitalWrite(latchPin3, LOW);
     shiftOut(dataPin3, clockPin3, LSBFIRST, col1);
     shiftOut(dataPin3, clockPin3, LSBFIRST, col2);
     shiftOut(dataPin3, clockPin3, LSBFIRST, col3);
     digitalWrite(latchPin3, HIGH);
-    delay(10);
+    delay(1);
+
+    Serial.print("Zeile 2:  ");
+    Serial.println(r2, BIN);
 
     //Zeile 3
     col1 = r3 >> 16;
     colH = r3 >> 8;
     col2 = colH & mask;
-    col3 = r3 & mask; 
-    
+    col3 = r3 & mask;
+
     rowA = row3 >> 16;
     rowB = row3 >> 8;
-    
+
     digitalWrite(latchPin2, LOW);
     shiftOut(dataPin2, clockPin2, LSBFIRST, rowA);
     shiftOut(dataPin2, clockPin2, LSBFIRST, rowB);
     digitalWrite(latchPin2, HIGH);
-    delay(10);
+    delay(1);
     digitalWrite(latchPin3, LOW);
     shiftOut(dataPin3, clockPin3, LSBFIRST, col1);
     shiftOut(dataPin3, clockPin3, LSBFIRST, col2);
     shiftOut(dataPin3, clockPin3, LSBFIRST, col3);
     digitalWrite(latchPin3, HIGH);
-    delay(10);
+    delay(1);
+
+    Serial.print("Zeile 3:  ");
+    Serial.println(r3, BIN);
 
     //Zeile 4
     col1 = r4 >> 16;
     colH = r4 >> 8;
     col2 = colH & mask;
-    col3 = r4 & mask; 
-    
+    col3 = r4 & mask;
+
     rowA = row4 >> 16;
     rowB = row4 >> 8;
-    
+
     digitalWrite(latchPin2, LOW);
     shiftOut(dataPin2, clockPin2, LSBFIRST, rowA);
     shiftOut(dataPin2, clockPin2, LSBFIRST, rowB);
     digitalWrite(latchPin2, HIGH);
-    delay(10);
+    delay(1);
     digitalWrite(latchPin3, LOW);
     shiftOut(dataPin3, clockPin3, LSBFIRST, col1);
     shiftOut(dataPin3, clockPin3, LSBFIRST, col2);
     shiftOut(dataPin3, clockPin3, LSBFIRST, col3);
     digitalWrite(latchPin3, HIGH);
-    delay(10);
+    delay(1);
+
+    Serial.print("Zeile 4:  ");
+    Serial.println(r4, BIN);
 
     //Zeile 5
     col1 = r5 >> 16;
     colH = r5 >> 8;
     col2 = colH & mask;
-    col3 = r5 & mask; 
-    
+    col3 = r5 & mask;
+
     rowA = row5 >> 16;
     rowB = row5 >> 8;
-    
+
     digitalWrite(latchPin2, LOW);
     shiftOut(dataPin2, clockPin2, LSBFIRST, rowA);
     shiftOut(dataPin2, clockPin2, LSBFIRST, rowB);
     digitalWrite(latchPin2, HIGH);
-    delay(10);
+    delay(1);
     digitalWrite(latchPin3, LOW);
     shiftOut(dataPin3, clockPin3, LSBFIRST, col1);
     shiftOut(dataPin3, clockPin3, LSBFIRST, col2);
     shiftOut(dataPin3, clockPin3, LSBFIRST, col3);
     digitalWrite(latchPin3, HIGH);
-    delay(10);
-    
+    delay(1);
+
+    Serial.print("Zeile 5:  ");
+    Serial.println(r5, BIN);
+
     //Zeile 6
     col1 = r6 >> 16;
     colH = r6 >> 8;
     col2 = colH & mask;
-    col3 = r6 & mask; 
-    
+    col3 = r6 & mask;
+
     rowA = row6 >> 16;
     rowB = row6 >> 8;
-    
+
     digitalWrite(latchPin2, LOW);
     shiftOut(dataPin2, clockPin2, LSBFIRST, rowA);
     shiftOut(dataPin2, clockPin2, LSBFIRST, rowB);
     digitalWrite(latchPin2, HIGH);
-    delay(10);
+    delay(1);
     digitalWrite(latchPin3, LOW);
     shiftOut(dataPin3, clockPin3, LSBFIRST, col1);
     shiftOut(dataPin3, clockPin3, LSBFIRST, col2);
     shiftOut(dataPin3, clockPin3, LSBFIRST, col3);
     digitalWrite(latchPin3, HIGH);
-    delay(10);
-    
+    delay(1);
+
+    Serial.print("Zeile 6:  ");
+    Serial.println(r6, BIN);
+
     //Zeile 7
     col1 = r7 >> 16;
     colH = r7 >> 8;
     col2 = colH & mask;
-    col3 = r7 & mask; 
-    
+    col3 = r7 & mask;
+
     rowA = row7 >> 16;
     rowB = row7 >> 8;
-    
+
     digitalWrite(latchPin2, LOW);
     shiftOut(dataPin2, clockPin2, LSBFIRST, rowA);
     shiftOut(dataPin2, clockPin2, LSBFIRST, rowB);
     digitalWrite(latchPin2, HIGH);
-    delay(10);
+    delay(1);
     digitalWrite(latchPin3, LOW);
     shiftOut(dataPin3, clockPin3, LSBFIRST, col1);
     shiftOut(dataPin3, clockPin3, LSBFIRST, col2);
     shiftOut(dataPin3, clockPin3, LSBFIRST, col3);
     digitalWrite(latchPin3, HIGH);
-    delay(10);
+    delay(1);
+
+    Serial.print("Zeile 7:  ");
+    Serial.println(r7, BIN);
 
     //Zeile 8
     col1 = r8 >> 16;
     colH = r8 >> 8;
     col2 = colH & mask;
-    col3 = r8 & mask; 
-    
+    col3 = r8 & mask;
+
     rowA = row8 >> 16;
     rowB = row8 >> 8;
-    
+
     digitalWrite(latchPin2, LOW);
     shiftOut(dataPin2, clockPin2, LSBFIRST, rowA);
     shiftOut(dataPin2, clockPin2, LSBFIRST, rowB);
     digitalWrite(latchPin2, HIGH);
-    delay(10);
+    delay(1);
     digitalWrite(latchPin3, LOW);
     shiftOut(dataPin3, clockPin3, LSBFIRST, col1);
     shiftOut(dataPin3, clockPin3, LSBFIRST, col2);
     shiftOut(dataPin3, clockPin3, LSBFIRST, col3);
     digitalWrite(latchPin3, HIGH);
-    delay(10);
+    delay(1);
+
+    Serial.print("Zeile 8:  ");
+    Serial.println(r8, BIN);
 
     //Zeile 9
     col1 = r9 >> 16;
     colH = r9 >> 8;
     col2 = colH & mask;
-    col3 = r9 & mask; 
-    
+    col3 = r9 & mask;
+
     rowA = row9 >> 16;
     rowB = row9 >> 8;
-    
+
     digitalWrite(latchPin2, LOW);
     shiftOut(dataPin2, clockPin2, LSBFIRST, rowA);
     shiftOut(dataPin2, clockPin2, LSBFIRST, rowB);
     digitalWrite(latchPin2, HIGH);
-    delay(10);
+    delay(1);
     digitalWrite(latchPin3, LOW);
     shiftOut(dataPin3, clockPin3, LSBFIRST, col1);
     shiftOut(dataPin3, clockPin3, LSBFIRST, col2);
     shiftOut(dataPin3, clockPin3, LSBFIRST, col3);
     digitalWrite(latchPin3, HIGH);
-    delay(10);
-       
+    delay(1);
+
+    Serial.print("Zeile 9:  ");
+    Serial.println(r9, BIN);
+
     //Zeile 10
     col1 = rr10 >> 16;
     colH = rr10 >> 8;
     col2 = colH & mask;
-    col3 = rr10 & mask; 
-    
+    col3 = rr10 & mask;
+
     rowA = row10 >> 16;
     rowB = row10 >> 8;
-    
+
     digitalWrite(latchPin2, LOW);
     shiftOut(dataPin2, clockPin2, LSBFIRST, rowA);
     shiftOut(dataPin2, clockPin2, LSBFIRST, rowB);
     digitalWrite(latchPin2, HIGH);
-    delay(10);
+    delay(1);
     digitalWrite(latchPin3, LOW);
     shiftOut(dataPin3, clockPin3, LSBFIRST, col1);
     shiftOut(dataPin3, clockPin3, LSBFIRST, col2);
     shiftOut(dataPin3, clockPin3, LSBFIRST, col3);
     digitalWrite(latchPin3, HIGH);
-    delay(10);
+    delay(1);
+
+    Serial.print("Zeile 10: ");
+    Serial.println(rr10, BIN);
 
     //Zeile 11
     col1 = rr11 >> 16;
     colH = rr11 >> 8;
     col2 = colH & mask;
-    col3 = rr11 & mask; 
-    
+    col3 = rr11 & mask;
+
     rowA = row11 >> 16;
     rowB = row11 >> 8;
-    
+
     digitalWrite(latchPin2, LOW);
     shiftOut(dataPin2, clockPin2, LSBFIRST, rowA);
     shiftOut(dataPin2, clockPin2, LSBFIRST, rowB);
     digitalWrite(latchPin2, HIGH);
-    delay(10);
+    delay(1);
     digitalWrite(latchPin3, LOW);
     shiftOut(dataPin3, clockPin3, LSBFIRST, col1);
     shiftOut(dataPin3, clockPin3, LSBFIRST, col2);
     shiftOut(dataPin3, clockPin3, LSBFIRST, col3);
     digitalWrite(latchPin3, HIGH);
-    delay(10);
+    delay(1);
+
+    Serial.print("Zeile 11: ");
+    Serial.println(rr11, BIN);
 
     //Zeile 12
     col1 = rr12 >> 16;
     colH = rr12 >> 8;
     col2 = colH & mask;
-    col3 = rr12 & mask; 
-    
+    col3 = rr12 & mask;
+
     rowA = row12 >> 16;
     rowB = row12 >> 8;
-    
+
     digitalWrite(latchPin2, LOW);
     shiftOut(dataPin2, clockPin2, LSBFIRST, rowA);
     shiftOut(dataPin2, clockPin2, LSBFIRST, rowB);
     digitalWrite(latchPin2, HIGH);
-    delay(10);
+    delay(1);
     digitalWrite(latchPin3, LOW);
     shiftOut(dataPin3, clockPin3, LSBFIRST, col1);
     shiftOut(dataPin3, clockPin3, LSBFIRST, col2);
     shiftOut(dataPin3, clockPin3, LSBFIRST, col3);
     digitalWrite(latchPin3, HIGH);
-    delay(10);
+    delay(1);
+
+    Serial.print("Zeile 12: ");
+    Serial.println(rr12, BIN);
 
     //Zeile 13
     col1 = rr13 >> 16;
     colH = rr13 >> 8;
     col2 = colH & mask;
-    col3 = rr13 & mask; 
-    
+    col3 = rr13 & mask;
+
     rowA = row13 >> 16;
     rowB = row13 >> 8;
-    
+
     digitalWrite(latchPin2, LOW);
     shiftOut(dataPin2, clockPin2, LSBFIRST, rowA);
     shiftOut(dataPin2, clockPin2, LSBFIRST, rowB);
     digitalWrite(latchPin2, HIGH);
-    delay(10);
+    delay(1);
     digitalWrite(latchPin3, LOW);
     shiftOut(dataPin3, clockPin3, LSBFIRST, col1);
     shiftOut(dataPin3, clockPin3, LSBFIRST, col2);
     shiftOut(dataPin3, clockPin3, LSBFIRST, col3);
     digitalWrite(latchPin3, HIGH);
-    delay(10);
+    delay(1);
+
+    Serial.print("Zeile 13: ");
+    Serial.println(rr13, BIN);
 
     //Zeile 14
     col1 = rr14 >> 16;
     colH = rr14 >> 8;
     col2 = colH & mask;
-    col3 = rr14 & mask; 
-    
+    col3 = rr14 & mask;
+
     rowA = row14 >> 16;
     rowB = row14 >> 8;
-    
+
     digitalWrite(latchPin2, LOW);
     shiftOut(dataPin2, clockPin2, LSBFIRST, rowA);
     shiftOut(dataPin2, clockPin2, LSBFIRST, rowB);
     digitalWrite(latchPin2, HIGH);
-    delay(10);
+    delay(1);
     digitalWrite(latchPin3, LOW);
     shiftOut(dataPin3, clockPin3, LSBFIRST, col1);
     shiftOut(dataPin3, clockPin3, LSBFIRST, col2);
     shiftOut(dataPin3, clockPin3, LSBFIRST, col3);
     digitalWrite(latchPin3, HIGH);
-    delay(10);
+    delay(1);
+
+    Serial.print("Zeile 14: ");
+    Serial.println(rr14, BIN);
 
     //Zeile 15
     col1 = rr15 >> 16;
     colH = rr15 >> 8;
     col2 = colH & mask;
-    col3 = rr15 & mask; 
-    
+    col3 = rr15 & mask;
+
     rowA = row15 >> 16;
     rowB = row15 >> 8;
-    
+
     digitalWrite(latchPin2, LOW);
     shiftOut(dataPin2, clockPin2, LSBFIRST, rowA);
     shiftOut(dataPin2, clockPin2, LSBFIRST, rowB);
     digitalWrite(latchPin2, HIGH);
-    delay(10);
+    delay(1);
     digitalWrite(latchPin3, LOW);
     shiftOut(dataPin3, clockPin3, LSBFIRST, col1);
     shiftOut(dataPin3, clockPin3, LSBFIRST, col2);
     shiftOut(dataPin3, clockPin3, LSBFIRST, col3);
     digitalWrite(latchPin3, HIGH);
-    delay(10);
+    delay(1);
+
+    Serial.print("Zeile 15: ");
+    Serial.println(rr15, BIN);
   }
 }
