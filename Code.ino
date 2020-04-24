@@ -1,4 +1,4 @@
-//Arduino UNO - Receiver - COM20
+//Oberstufenprojekt - Arduino UNO - Receiver - COM20
 //Portbelegung:
 //D2 - DataIn 433Mhz
 //D6 - LED grün
@@ -1961,3 +1961,5 @@ void loop() {
     Serial.println(rr15, BIN);
   }
 }
+
+//Copyright by Tom Schröter und Oliver Reichardt
