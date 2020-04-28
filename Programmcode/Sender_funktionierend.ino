@@ -36,10 +36,10 @@ long a, b, c, d, e, f, g, h;
 int led = 2;
 
 char hexaKeys [Rows] [Cols] = {
-  {'1', '2', '3', 'A'},
-  {'4', '5', '6', 'B'},
-  {'7', '8', '9', 'C'},
-  {'*', '0', '#', 'D'}
+  {'D', '*', '0', '#'},
+  {'C', '9', '8', '7'},
+  {'B', '6', '5', '4'},
+  {'A', '3', '2', '1'}
 };
 
 byte rowPins [Rows] = {7, 6, 5, 4};
@@ -56,8 +56,8 @@ void setup() {
   lcd.print("Eingabe: ");
 
   Serial.begin(9600);
-  
-  pinMode(led, OUTPUT); 
+
+  pinMode(led, OUTPUT);
 
   digitalWrite(led, LOW);
 }
@@ -125,86 +125,70 @@ void output() {
   lcd.print(keyBuffer[7]);
 
   Serial.println("Starte Übertragung...");
-
+ 
   digitalWrite(led, HIGH);
 
- // digitalWrite (3, HIGH);
   rcSwitch.send(keyBuffer[0], 24);
   Serial.print("Key: ");
   Serial.print(keyBuffer[0]);
   Serial.print(" - ");
   Serial.println(keyBuffer[0], HEX);
- // digitalWrite(3, LOW);
 
   delay(500);
   
- // digitalWrite (3, HIGH);
   rcSwitch.send(keyBuffer[1], 24);
   Serial.print("Key: ");
   Serial.print(keyBuffer[1]);
   Serial.print(" - ");
   Serial.println(keyBuffer[1], HEX);
- // digitalWrite(3, LOW);
 
   delay(500);
   
-  //digitalWrite (3, HIGH);
   rcSwitch.send(keyBuffer[2], 24);
   Serial.print("Key: ");
   Serial.print(keyBuffer[2]);
   Serial.print(" - ");
   Serial.println(keyBuffer[2], HEX);
-  //digitalWrite(3, LOW);
 
   delay(500);
   
- // digitalWrite (3, HIGH);
   rcSwitch.send(keyBuffer[3], 24);
   Serial.print("Key: ");
   Serial.print(keyBuffer[3]);
   Serial.print(" - ");
   Serial.println(keyBuffer[3], HEX);
- // digitalWrite(3, LOW);
-
+  
   delay(500);
 
- // digitalWrite (3, HIGH);
   rcSwitch.send(keyBuffer[4], 24);
   Serial.print("Key: ");
   Serial.print(keyBuffer[4]);
   Serial.print(" - ");
   Serial.println(keyBuffer[4], HEX);
- // digitalWrite(3, LOW);
-
+  
   delay(500);
   
-//  digitalWrite (3, HIGH);
   rcSwitch.send(keyBuffer[5], 24);
   Serial.print("Key: ");
   Serial.print(keyBuffer[5]);
   Serial.print(" - ");
   Serial.println(keyBuffer[5], HEX);
- // digitalWrite(3, LOW);
-
+ 
   delay(500);
   
- // digitalWrite (3, HIGH);
-  rcSwitch.send(keyBuffer[6], 24);
+ rcSwitch.send(keyBuffer[6], 24);
   Serial.print("Key: ");
   Serial.print(keyBuffer[6]);
   Serial.print(" - ");
   Serial.println(keyBuffer[6], HEX);
-//  digitalWrite(3, LOW);
-
+  
   delay(500);
   
- // digitalWrite (3, HIGH);
   rcSwitch.send(keyBuffer[7], 24);
   Serial.print("Key: ");
   Serial.print(keyBuffer[7]);
   Serial.print(" - ");
   Serial.println(keyBuffer[7], HEX);
- // digitalWrite(3, LOW);
 
   Serial.print("Gesamte Ausgabe: ");
   Serial.print(keyBuffer[0]);
