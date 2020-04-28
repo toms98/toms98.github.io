@@ -3,7 +3,7 @@
 *  von Tom Schröter und Oliver Reichardt
 *  ELGS_72
 */
-//Arduino UNO - Transmitter - COM18 - Stand 27.04.2020
+//Arduino UNO - Transmitter - COM18 - Stand 28.04.2020
 //Portbelegung:
 //D2  - LED
 //D4  - Row4
