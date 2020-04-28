@@ -1,4 +1,20 @@
-//COM18
+/* paras_näytöö
+*  Oberstufenprojekt "voimala"
+*  von Tom Schröter und Oliver Reichardt
+*  ELGS_72
+*/
+//Arduino UNO - Transmitter - COM18 - Stand 27.04.2020
+//Portbelegung:
+//D2  - LED
+//D4  - Row4
+//D5  - Row3
+//D6  - Row2
+//D7  - Row1
+//D8  - Col1
+//D9  - Col2
+//D10 - Col3
+//D11 - Col4
+
 #include <Keypad.h>
 #include <RCSwitch.h>
 #include <LiquidCrystal_I2C.h>
@@ -17,6 +33,8 @@ const byte Cols = 4;
 
 long a, b, c, d, e, f, g, h;
 
+int led = 2;
+
 char hexaKeys [Rows] [Cols] = {
   {'1', '2', '3', 'A'},
   {'4', '5', '6', 'B'},
@@ -30,7 +48,6 @@ byte colPins [Cols] = {8, 9, 11, 12};
 Keypad customKeypad = Keypad (makeKeymap (hexaKeys), rowPins, colPins, Rows, Cols);
 
 void setup() {
-  //pinMode(3, OUTPUT);
   rcSwitch.enableTransmit(10);
 
   lcd.init();
@@ -39,12 +56,10 @@ void setup() {
   lcd.print("Eingabe: ");
 
   Serial.begin(9600);
+  
+  pinMode(led, OUTPUT); 
 
-  pinMode(2, OUTPUT); //weiß
-  pinMode(3, OUTPUT); //grün
-
-  digitalWrite(3, HIGH);
-  digitalWrite(2, LOW);
+  digitalWrite(led, LOW);
 }
 
 void loop() {
@@ -110,9 +125,8 @@ void output() {
   lcd.print(keyBuffer[7]);
 
   Serial.println("Starte Übertragung...");
- 
-  digitalWrite(2, HIGH);
-  digitalWrite(3, LOW);
+
+  digitalWrite(led, HIGH);
 
  // digitalWrite (3, HIGH);
   rcSwitch.send(keyBuffer[0], 24);
@@ -209,8 +223,7 @@ void output() {
   Serial.print(", ");
   Serial.println(keyBuffer[7]);
 
-  digitalWrite(2, LOW);
-  digitalWrite(3, HIGH);
+  digitalWrite(led, LOW);
 
   delay(200);
   Serial.println("Übertragung beendet");
